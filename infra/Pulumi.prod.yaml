@@ -1,0 +1,6 @@
+encryptionsalt: v1:8YTTXBs0G3I=:v1:+/jvqcqQr2K1zqd6:ofGUZF5fYpVIeI+pnN4ECGPjlPUicg==
+config:
+  amigochi-infra:mode: vultr
+  amigochi-infra:sshPublicKeyPath: /Users/oquirozm/.ssh/oquirozm.pub
+  vultr:apiKey:
+    secure: v1:zXHeenGS2/kqsEd2:dFd9Hi4FuCXENb+1AHFaXwMmtiNB4vuvVleS6BZMnCTV7YOCTU9tLe1wONTm0IGjs4hk1Q==

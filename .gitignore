@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Pulumi state (if using local backend)
+.pulumi/
+
+# Environment
+.env
+.env.local
+
+# PocketBase data (local/prod DB lives on host filesystem)
+pocketbase-data/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/

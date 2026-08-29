@@ -1,0 +1,31 @@
+services:
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - astro
+      - pocketbase
+    restart: unless-stopped
+
+  astro:
+    image: amigochi-astro:prod
+    environment:
+      - HOST=0.0.0.0
+      - PORT=4321
+      - NODE_ENV=production
+      - POCKETBASE_URL=http://pocketbase:8090
+    depends_on:
+      - pocketbase
+    restart: unless-stopped
+
+  pocketbase:
+    image: amigochi-pocketbase:prod
+    ports:
+      - "127.0.0.1:8090:8090"
+    volumes:
+      - ./pocketbase-data:/pb/pb_data
+      - ./pocketbase-hooks/pb_hooks:/pb/pb_hooks
+    restart: unless-stopped

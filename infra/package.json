@@ -1,0 +1,16 @@
+{
+  "name": "amigochi-infra",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "pulumi": "pulumi"
+  },
+  "dependencies": {
+    "@ediri/vultr": "^2.27.0",
+    "@pulumi/docker": "^4.6.0",
+    "@pulumi/pulumi": "^3.170.0"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.3"
+  }
+}

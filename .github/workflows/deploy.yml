@@ -1,0 +1,53 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+env:
+  SERVER_IP: ${{ secrets.SERVER_IP }}
+  DEPLOY_USER: deploy
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H ${{ env.SERVER_IP }} >> ~/.ssh/known_hosts 2>/dev/null
+
+      - name: Build images (linux/amd64)
+        run: |
+          docker buildx build --platform linux/amd64 --load \
+            -t amigochi-astro:prod ./astro-app
+          docker buildx build --platform linux/amd64 --load \
+            -t amigochi-pocketbase:prod ./pocketbase
+
+      - name: Stream images to server
+        run: |
+          SSH="ssh -i ~/.ssh/deploy_key ${{ env.DEPLOY_USER }}@${{ env.SERVER_IP }}"
+          $SSH "mkdir -p /home/${{ env.DEPLOY_USER }}/app"
+          docker save amigochi-astro:prod | gzip | $SSH "gunzip | docker load"
+          docker save amigochi-pocketbase:prod | gzip | $SSH "gunzip | docker load"
+
+      - name: Sync project files
+        run: |
+          rsync -avz --delete \
+            -e "ssh -i ~/.ssh/deploy_key" \
+            --exclude node_modules \
+            --exclude .git \
+            --exclude .pulumi \
+            --exclude dist \
+            --exclude pocketbase-data \
+            ./ ${{ env.DEPLOY_USER }}@${{ env.SERVER_IP }}:/home/${{ env.DEPLOY_USER }}/app/
+
+      - name: Start containers
+        run: |
+          ssh -i ~/.ssh/deploy_key ${{ env.DEPLOY_USER }}@${{ env.SERVER_IP }} \
+            "cd /home/${{ env.DEPLOY_USER }}/app && mkdir -p pocketbase-data && sudo docker compose up -d"

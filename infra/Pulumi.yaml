@@ -1,0 +1,4 @@
+name: "amigochi-infra"
+runtime: "nodejs"
+description: "Infrastructure for Amigochi POC — Astro SSR + PocketBase on Vultr"
+main: src/index.ts
