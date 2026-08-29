@@ -10,6 +10,12 @@ Astro SSR frontend + PocketBase backend, deployed with Docker on Vultr.
 - **Containers:** Docker + Docker Compose
 - **CI/CD:** GitHub Actions + local deploy scripts
 
+## Documentation
+
+- **Astro:** [Official Docs](https://docs.astro.build/) · [SSR Guide](https://docs.astro.build/en/guides/server-side-rendering/) · [Node Adapter](https://docs.astro.build/en/guides/integrations-guide/node/)
+- **PocketBase:** [Official Docs](https://pocketbase.io/docs/) · [JS Hooks](https://pocketbase.io/docs/js-overview/) · [REST API](https://pocketbase.io/docs/rest-api/) · [Go Overview](https://pocketbase.io/docs/go-overview/)
+- **Pulumi:** [Vultr Provider](https://www.pulumi.com/registry/packages/vultr/) · [Docker Provider](https://www.pulumi.com/registry/packages/docker/)
+
 ## Prerequisites
 
 - Node.js >= 22
